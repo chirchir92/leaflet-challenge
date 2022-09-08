@@ -6,8 +6,8 @@ var tectonicURL = "https://raw.githubusercontent.com/fraxen/tectonicplates/maste
 console.log(tectonicURL)
 
 // create layer groups for the quakes and tectonic plates
-var quakes = new L.layerGroup()
-var tectonic = new L.layerGroup()
+var quakes = new L.layerGroup();
+var tectonic = new L.layerGroup();
 
 // define satellite, grayscale and outdoors layers
 var satelliteMap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
@@ -55,9 +55,7 @@ var myMap = L.map("map", {
 // create a layer control &
 // pass in our baseMaps and overlayMaps then
 // add layer controls to the maps
-L.control.layers(baseMaps, overlayMaps, {
-    collapse: false
-}).addTo(myMap);
+L.control.layers(baseMaps, overlayMaps, { collapse: false }).addTo(myMap);
 
 // initialise d3 and retrieve earthquake data
 d3.json(queryURL, function (seismicEvents) {
@@ -109,18 +107,18 @@ d3.json(queryURL, function (seismicEvents) {
                 "</h4> <hr> <h5 style='text-align:center;'>" + feature.properties.title + "</h5>"
             );
         }
-    }).addTo(seismicEvents);
+    }).addTo(quakes);
     // add to maps
-    seismicEvents.addTo(myMap);
+    quakes.addTo(myMap);
 
     // get tectonic plates url data
     d3.json(tectonicURL, function (plates) {
         L.geoJSON(plates, {
             color: "orange",
             weight: .9
-        }).addTo(plates)
+        }).addTo(tectonic)
         // add to maps
-        plates.addTo(myMap);
+        tectonic.addTo(myMap);
     });
 
 
